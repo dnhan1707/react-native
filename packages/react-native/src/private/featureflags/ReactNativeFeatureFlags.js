@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @generated SignedSource<<f78f43e37af86d21faf92f4fea89f351>>
+ * @generated SignedSource<<141c9d17083660b8726d2780813168dd>>
  * @flow strict
  */
 
@@ -15,7 +15,7 @@
  *   packages/react-native/scripts/featureflags/ReactNativeFeatureFlags.config.js.
  *
  * To regenerate this code, run the following script from the repo root:
- *   yarn featureflags-update
+ *   yarn featureflags --update
  */
 
 import {
@@ -30,6 +30,7 @@ export type ReactNativeFeatureFlagsJsOnly = {
   jsOnlyTestFlag: Getter<boolean>,
   animatedShouldDebounceQueueFlush: Getter<boolean>,
   animatedShouldUseSingleOp: Getter<boolean>,
+  disableInteractionManager: Getter<boolean>,
   enableAccessToHostTreeInFabric: Getter<boolean>,
   enableAnimatedAllowlist: Getter<boolean>,
   enableAnimatedClearImmediateFix: Getter<boolean>,
@@ -56,10 +57,10 @@ export type ReactNativeFeatureFlags = {
   batchRenderingUpdatesInEventLoop: Getter<boolean>,
   completeReactInstanceCreationOnBgThreadOnAndroid: Getter<boolean>,
   disableEventLoopOnBridgeless: Getter<boolean>,
+  disableMountItemReorderingAndroid: Getter<boolean>,
   enableAlignItemsBaselineOnFabricIOS: Getter<boolean>,
   enableAndroidLineHeightCentering: Getter<boolean>,
   enableBridgelessArchitecture: Getter<boolean>,
-  enableCleanTextInputYogaNode: Getter<boolean>,
   enableCppPropsIteratorSetter: Getter<boolean>,
   enableDeletionOfUnmountedViews: Getter<boolean>,
   enableEagerRootViewAttachment: Getter<boolean>,
@@ -78,7 +79,6 @@ export type ReactNativeFeatureFlags = {
   enablePropsUpdateReconciliationAndroid: Getter<boolean>,
   enableReportEventPaintTime: Getter<boolean>,
   enableSynchronousStateUpdates: Getter<boolean>,
-  enableTextPreallocationOptimisation: Getter<boolean>,
   enableUIConsistency: Getter<boolean>,
   enableViewRecycling: Getter<boolean>,
   excludeYogaFromRawProps: Getter<boolean>,
@@ -92,6 +92,7 @@ export type ReactNativeFeatureFlags = {
   loadVectorDrawablesOnImages: Getter<boolean>,
   setAndroidLayoutDirection: Getter<boolean>,
   traceTurboModulePromiseRejectionsOnAndroid: Getter<boolean>,
+  useAlwaysAvailableJSErrorHandling: Getter<boolean>,
   useFabricInterop: Getter<boolean>,
   useImmediateExecutorInAndroidBridgeless: Getter<boolean>,
   useModernRuntimeScheduler: Getter<boolean>,
@@ -117,6 +118,11 @@ export const animatedShouldDebounceQueueFlush: Getter<boolean> = createJavaScrip
  * Enables an experimental mega-operation for Animated.js that replaces many calls to native with a single call into native, to reduce JSI/JNI traffic.
  */
 export const animatedShouldUseSingleOp: Getter<boolean> = createJavaScriptFlagGetter('animatedShouldUseSingleOp', false);
+
+/**
+ * Disables InteractionManager and replaces its scheduler with `setImmediate`.
+ */
+export const disableInteractionManager: Getter<boolean> = createJavaScriptFlagGetter('disableInteractionManager', false);
 
 /**
  * Enables access to the host tree in Fabric using DOM-compatible APIs.
@@ -213,21 +219,21 @@ export const completeReactInstanceCreationOnBgThreadOnAndroid: Getter<boolean> =
  */
 export const disableEventLoopOnBridgeless: Getter<boolean> = createNativeFlagGetter('disableEventLoopOnBridgeless', false);
 /**
+ * Prevent FabricMountingManager from reordering mountitems, which may lead to invalid state on the UI thread
+ */
+export const disableMountItemReorderingAndroid: Getter<boolean> = createNativeFlagGetter('disableMountItemReorderingAndroid', false);
+/**
  * Kill-switch to turn off support for aling-items:baseline on Fabric iOS.
  */
 export const enableAlignItemsBaselineOnFabricIOS: Getter<boolean> = createNativeFlagGetter('enableAlignItemsBaselineOnFabricIOS', true);
 /**
  * When enabled, custom line height calculation will be centered from top to bottom.
  */
-export const enableAndroidLineHeightCentering: Getter<boolean> = createNativeFlagGetter('enableAndroidLineHeightCentering', false);
+export const enableAndroidLineHeightCentering: Getter<boolean> = createNativeFlagGetter('enableAndroidLineHeightCentering', true);
 /**
  * Feature flag to enable the new bridgeless architecture. Note: Enabling this will force enable the following flags: `useTurboModules` & `enableFabricRenderer.
  */
 export const enableBridgelessArchitecture: Getter<boolean> = createNativeFlagGetter('enableBridgelessArchitecture', false);
-/**
- * Clean yoga node when <TextInput /> does not change.
- */
-export const enableCleanTextInputYogaNode: Getter<boolean> = createNativeFlagGetter('enableCleanTextInputYogaNode', false);
 /**
  * Enable prop iterator setter-style construction of Props in C++ (this flag is not used in Java).
  */
@@ -301,10 +307,6 @@ export const enableReportEventPaintTime: Getter<boolean> = createNativeFlagGette
  */
 export const enableSynchronousStateUpdates: Getter<boolean> = createNativeFlagGetter('enableSynchronousStateUpdates', false);
 /**
- * Text preallocation optimisation where unnecessary work is removed.
- */
-export const enableTextPreallocationOptimisation: Getter<boolean> = createNativeFlagGetter('enableTextPreallocationOptimisation', false);
-/**
  * Ensures that JavaScript always has a consistent view of the state of the UI (e.g.: commits done in other threads are not immediately propagated to JS during its execution).
  */
 export const enableUIConsistency: Getter<boolean> = createNativeFlagGetter('enableUIConsistency', false);
@@ -356,6 +358,10 @@ export const setAndroidLayoutDirection: Getter<boolean> = createNativeFlagGetter
  * Enables storing js caller stack when creating promise in native module. This is useful in case of Promise rejection and tracing the cause.
  */
 export const traceTurboModulePromiseRejectionsOnAndroid: Getter<boolean> = createNativeFlagGetter('traceTurboModulePromiseRejectionsOnAndroid', false);
+/**
+ * In Bridgeless mode, use the always available javascript error reporting pipeline.
+ */
+export const useAlwaysAvailableJSErrorHandling: Getter<boolean> = createNativeFlagGetter('useAlwaysAvailableJSErrorHandling', false);
 /**
  * Should this application enable the Fabric Interop Layer for Android? If yes, the application will behave so that it can accept non-Fabric components and render them on Fabric. This toggle is controlling extra logic such as custom event dispatching that are needed for the Fabric Interop Layer to work correctly.
  */

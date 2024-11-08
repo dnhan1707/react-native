@@ -26,7 +26,6 @@
 #import <React/RCTSurfaceView.h>
 #import <React/RCTUtils.h>
 
-#import <react/config/ReactNativeConfig.h>
 #import <react/featureflags/ReactNativeFeatureFlags.h>
 #import <react/renderer/componentregistry/ComponentDescriptorFactory.h>
 #import <react/renderer/components/text/BaseTextProps.h>
@@ -226,8 +225,6 @@ using namespace facebook::react;
 
 - (RCTScheduler *)_createScheduler
 {
-  auto reactNativeConfig = _contextContainer->at<std::shared_ptr<const ReactNativeConfig>>("ReactNativeConfig");
-
   auto componentRegistryFactory =
       [factory = wrapManagedObject(_mountingManager.componentViewRegistry.componentViewFactory)](
           const EventDispatcher::Weak &eventDispatcher, const ContextContainer::Shared &contextContainer) {
@@ -253,10 +250,10 @@ using namespace facebook::react;
   toolbox.bridgelessBindingsExecutor = _bridgelessBindingsExecutor;
 
   toolbox.eventBeatFactory =
-      [runtimeExecutor](std::shared_ptr<EventBeat::OwnerBox> ownerBox) -> std::unique_ptr<EventBeat> {
+      [runtimeScheduler](std::shared_ptr<EventBeat::OwnerBox> ownerBox) -> std::unique_ptr<EventBeat> {
     auto runLoopObserver =
         std::make_unique<const MainRunLoopObserver>(RunLoopObserver::Activity::BeforeWaiting, ownerBox->owner);
-    return std::make_unique<AppleEventBeat>(std::move(ownerBox), std::move(runLoopObserver), runtimeExecutor);
+    return std::make_unique<AppleEventBeat>(std::move(ownerBox), std::move(runLoopObserver), *runtimeScheduler);
   };
 
   RCTScheduler *scheduler = [[RCTScheduler alloc] initWithToolbox:toolbox];

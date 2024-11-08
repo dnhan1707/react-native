@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
                                     stack:(nullable NSArray *)stack
                               exceptionId:(NSNumber *)exceptionId
                           extraDataAsJSON:(nullable NSString *)extraDataAsJSON;
+
+@optional
+- (NSDictionary<NSString *, id> *)decorateJSExceptionData:(NSDictionary<NSString *, id> *)exceptionData;
 @end
 
 @interface RCTExceptionsManager : NSObject <RCTBridgeModule>
@@ -34,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reportJsException:(nullable NSString *)message
                     stack:(nullable NSArray<NSDictionary *> *)stack
               exceptionId:(double)exceptionId
-                  isFatal:(bool)isFatal;
+                  isFatal:(bool)isFatal __attribute__((deprecated));
 
 @property (nonatomic, weak) id<RCTExceptionsManagerDelegate> delegate;
 

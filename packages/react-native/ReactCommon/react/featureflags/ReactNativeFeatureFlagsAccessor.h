@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @generated SignedSource<<bcb41adc68b6a45985943b99c088deb5>>
+ * @generated SignedSource<<ef77bba170be911320a9f8f2c1c98a9f>>
  */
 
 /**
@@ -14,7 +14,7 @@
  *   packages/react-native/scripts/featureflags/ReactNativeFeatureFlags.config.js.
  *
  * To regenerate this code, run the following script from the repo root:
- *   yarn featureflags-update
+ *   yarn featureflags --update
  */
 
 #pragma once
@@ -36,10 +36,10 @@ class ReactNativeFeatureFlagsAccessor {
   bool allowRecursiveCommitsWithSynchronousMountOnAndroid();
   bool completeReactInstanceCreationOnBgThreadOnAndroid();
   bool disableEventLoopOnBridgeless();
+  bool disableMountItemReorderingAndroid();
   bool enableAlignItemsBaselineOnFabricIOS();
   bool enableAndroidLineHeightCentering();
   bool enableBridgelessArchitecture();
-  bool enableCleanTextInputYogaNode();
   bool enableCppPropsIteratorSetter();
   bool enableDeletionOfUnmountedViews();
   bool enableEagerRootViewAttachment();
@@ -57,7 +57,6 @@ class ReactNativeFeatureFlagsAccessor {
   bool enablePropsUpdateReconciliationAndroid();
   bool enableReportEventPaintTime();
   bool enableSynchronousStateUpdates();
-  bool enableTextPreallocationOptimisation();
   bool enableUIConsistency();
   bool enableViewRecycling();
   bool excludeYogaFromRawProps();
@@ -71,6 +70,7 @@ class ReactNativeFeatureFlagsAccessor {
   bool loadVectorDrawablesOnImages();
   bool setAndroidLayoutDirection();
   bool traceTurboModulePromiseRejectionsOnAndroid();
+  bool useAlwaysAvailableJSErrorHandling();
   bool useFabricInterop();
   bool useImmediateExecutorInAndroidBridgeless();
   bool useNativeViewConfigsInBridgelessMode();
@@ -96,10 +96,10 @@ class ReactNativeFeatureFlagsAccessor {
   std::atomic<std::optional<bool>> allowRecursiveCommitsWithSynchronousMountOnAndroid_;
   std::atomic<std::optional<bool>> completeReactInstanceCreationOnBgThreadOnAndroid_;
   std::atomic<std::optional<bool>> disableEventLoopOnBridgeless_;
+  std::atomic<std::optional<bool>> disableMountItemReorderingAndroid_;
   std::atomic<std::optional<bool>> enableAlignItemsBaselineOnFabricIOS_;
   std::atomic<std::optional<bool>> enableAndroidLineHeightCentering_;
   std::atomic<std::optional<bool>> enableBridgelessArchitecture_;
-  std::atomic<std::optional<bool>> enableCleanTextInputYogaNode_;
   std::atomic<std::optional<bool>> enableCppPropsIteratorSetter_;
   std::atomic<std::optional<bool>> enableDeletionOfUnmountedViews_;
   std::atomic<std::optional<bool>> enableEagerRootViewAttachment_;
@@ -117,7 +117,6 @@ class ReactNativeFeatureFlagsAccessor {
   std::atomic<std::optional<bool>> enablePropsUpdateReconciliationAndroid_;
   std::atomic<std::optional<bool>> enableReportEventPaintTime_;
   std::atomic<std::optional<bool>> enableSynchronousStateUpdates_;
-  std::atomic<std::optional<bool>> enableTextPreallocationOptimisation_;
   std::atomic<std::optional<bool>> enableUIConsistency_;
   std::atomic<std::optional<bool>> enableViewRecycling_;
   std::atomic<std::optional<bool>> excludeYogaFromRawProps_;
@@ -131,6 +130,7 @@ class ReactNativeFeatureFlagsAccessor {
   std::atomic<std::optional<bool>> loadVectorDrawablesOnImages_;
   std::atomic<std::optional<bool>> setAndroidLayoutDirection_;
   std::atomic<std::optional<bool>> traceTurboModulePromiseRejectionsOnAndroid_;
+  std::atomic<std::optional<bool>> useAlwaysAvailableJSErrorHandling_;
   std::atomic<std::optional<bool>> useFabricInterop_;
   std::atomic<std::optional<bool>> useImmediateExecutorInAndroidBridgeless_;
   std::atomic<std::optional<bool>> useNativeViewConfigsInBridgelessMode_;

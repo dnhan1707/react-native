@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.facebook.perftest;
+#pragma once
 
-/** PerfTestConfig stub. */
-public class PerfTestConfig {
-
-  public boolean isRunningInPerfTest() {
-    return false;
-  }
-}
+// This header exists for backwards compatibility with libraries importing
+// <react/fabric/Binding.h>
+#include "FabricUIManagerBinding.h"

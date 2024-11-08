@@ -683,7 +683,7 @@ exports[`public API should not change unintentionally Libraries/Animated/bezier.
 exports[`public API should not change unintentionally Libraries/Animated/components/AnimatedFlatList.js 1`] = `
 "declare export default AnimatedComponentType<
   React.ElementConfig<typeof FlatList>,
-  React.ElementRef<typeof FlatList>,
+  FlatList<mixed>,
 >;
 "
 `;
@@ -707,7 +707,7 @@ declare export default typeof AnimatedScrollView;
 exports[`public API should not change unintentionally Libraries/Animated/components/AnimatedSectionList.js 1`] = `
 "declare export default AnimatedComponentType<
   React.ElementConfig<typeof SectionList>,
-  React.ElementRef<typeof SectionList>,
+  SectionList<SectionBase<any>>,
 >;
 "
 `;
@@ -2042,7 +2042,7 @@ exports[`public API should not change unintentionally Libraries/Components/Scrol
 export type DecelerationRateType = \\"fast\\" | \\"normal\\" | number;
 export type ScrollResponderType = ScrollViewImperativeMethods;
 type PublicScrollViewInstance = $ReadOnly<{|
-  ...$Exact<TScrollViewNativeComponentInstance>,
+  ...HostInstance,
   ...ScrollViewImperativeMethods,
 |}>;
 type InnerViewInstance = React.ElementRef<View>;
@@ -2169,7 +2169,7 @@ declare class ScrollView extends React.Component<Props, State> {
   getScrollableNode: () => ?number;
   getInnerViewNode: () => ?number;
   getInnerViewRef: () => InnerViewInstance | null;
-  getNativeScrollRef: () => TScrollViewNativeComponentInstance | null;
+  getNativeScrollRef: () => HostInstance | null;
   scrollTo: (
     options?:
       | {
@@ -2184,9 +2184,6 @@ declare class ScrollView extends React.Component<Props, State> {
   ) => void;
   scrollToEnd: (options?: ?{ animated?: boolean, ... }) => void;
   flashScrollIndicators: () => void;
-  _subscribeToOnScroll: (
-    callback: ({ x: number, y: number }) => void
-  ) => EventSubscription;
   scrollResponderScrollNativeHandleToKeyboard: (
     nodeHandle: number | HostInstance,
     additionalOffset?: number,
@@ -2224,10 +2221,7 @@ declare class ScrollView extends React.Component<Props, State> {
   _handleLayout: $FlowFixMe;
   _handleContentOnLayout: $FlowFixMe;
   _innerView: RefForwarder<InnerViewInstance, InnerViewInstance>;
-  _scrollView: RefForwarder<
-    TScrollViewNativeImperativeHandle,
-    PublicScrollViewInstance | null,
-  >;
+  _scrollView: RefForwarder<HostInstance, PublicScrollViewInstance | null>;
   scrollResponderKeyboardWillShow: (e: KeyboardEvent) => void;
   scrollResponderKeyboardWillHide: (e: KeyboardEvent) => void;
   scrollResponderKeyboardDidShow: (e: KeyboardEvent) => void;
@@ -4869,7 +4863,7 @@ export type ImageProps = $ReadOnly<{|
     | \\"strict-origin-when-cross-origin\\"
     | \\"unsafe-url\\"
   ),
-  resizeMode?: ?(\\"cover\\" | \\"contain\\" | \\"stretch\\" | \\"repeat\\" | \\"center\\"),
+  resizeMode?: ?ImageResizeMode,
   testID?: ?string,
   tintColor?: ColorValue,
   src?: ?string,
@@ -4892,7 +4886,8 @@ exports[`public API should not change unintentionally Libraries/Image/ImageResiz
   | \\"contain\\"
   | \\"cover\\"
   | \\"repeat\\"
-  | \\"stretch\\";
+  | \\"stretch\\"
+  | \\"none\\";
 "
 `;
 
@@ -4989,10 +4984,9 @@ export type { ImageProps } from \\"./ImageProps\\";
 `;
 
 exports[`public API should not change unintentionally Libraries/Image/ImageUtils.js 1`] = `
-"type ResizeMode = \\"cover\\" | \\"contain\\" | \\"stretch\\" | \\"repeat\\" | \\"center\\";
-declare export function convertObjectFitToResizeMode(
+"declare export function convertObjectFitToResizeMode(
   objectFit: ?string
-): ?ResizeMode;
+): ?ImageResizeMode;
 "
 `;
 
@@ -5341,7 +5335,41 @@ declare const InteractionManager: {
   addListener: $FlowFixMe,
   setDeadline(deadline: number): void,
 };
-declare module.exports: InteractionManager;
+declare module.exports: typeof InteractionManager;
+"
+`;
+
+exports[`public API should not change unintentionally Libraries/Interaction/InteractionManagerStub.js 1`] = `
+"export type Handle = number;
+type Task =
+  | {
+      name: string,
+      run: () => void,
+    }
+  | {
+      name: string,
+      gen: () => Promise<void>,
+    }
+  | (() => void);
+declare const InteractionManagerStub: {
+  Events: {
+    interactionStart: \\"interactionStart\\",
+    interactionComplete: \\"interactionComplete\\",
+  },
+  runAfterInteractions(task: ?Task): {
+    then: <U>(
+      onFulfill?: ?(void) => ?(Promise<U> | U),
+      onReject?: ?(error: mixed) => ?(Promise<U> | U)
+    ) => Promise<U>,
+    cancel: () => void,
+    ...
+  },
+  createInteractionHandle(): Handle,
+  clearInteractionHandle(handle: Handle): void,
+  addListener(): EventSubscription,
+  setDeadline(deadline: number): void,
+};
+declare module.exports: InteractionManagerStub;
 "
 `;
 
@@ -5725,7 +5753,7 @@ declare class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
   setNativeProps(props: { [string]: mixed, ... }): void;
   constructor(props: Props<ItemT>): void;
   componentDidUpdate(prevProps: Props<ItemT>): void;
-  _listRef: ?React.ElementRef<typeof VirtualizedList>;
+  _listRef: ?VirtualizedList;
   _virtualizedListPairs: Array<ViewabilityConfigCallbackPair>;
   _captureRef: $FlowFixMe;
   _checkProps(props: Props<ItemT>): void;
@@ -6411,6 +6439,7 @@ export type Props = $ReadOnly<{|
   ),
   transparent?: ?boolean,
   statusBarTranslucent?: ?boolean,
+  navigationBarTranslucent?: ?boolean,
   hardwareAccelerated?: ?boolean,
   visible?: ?boolean,
   onRequestClose?: ?DirectEventHandler<null>,
@@ -7525,14 +7554,6 @@ declare module.exports: UIManagerJS;
 "
 `;
 
-exports[`public API should not change unintentionally Libraries/ReactNative/ReactFabricInternals.js 1`] = `
-"declare const createReactNativeComponentClass: $FlowFixMe;
-declare module.exports: {
-  createReactNativeComponentClass: createReactNativeComponentClass,
-};
-"
-`;
-
 exports[`public API should not change unintentionally Libraries/ReactNative/ReactFabricPublicInstance/ReactFabricHostComponent.js 1`] = `
 "declare export default class ReactFabricHostComponent
   implements INativeMethods
@@ -8261,8 +8282,8 @@ export type ____TextStyle_Internal = $ReadOnly<{
 }>;
 export type ____ImageStyle_InternalCore = $ReadOnly<{
   ...$Exact<____ViewStyle_Internal>,
-  resizeMode?: \\"contain\\" | \\"cover\\" | \\"stretch\\" | \\"center\\" | \\"repeat\\",
-  objectFit?: \\"cover\\" | \\"contain\\" | \\"fill\\" | \\"scale-down\\",
+  resizeMode?: ImageResizeMode,
+  objectFit?: \\"cover\\" | \\"contain\\" | \\"fill\\" | \\"scale-down\\" | \\"none\\",
   tintColor?: ____ColorValue_Internal,
   overlayColor?: string,
 }>;
@@ -8272,8 +8293,8 @@ export type ____ImageStyle_Internal = $ReadOnly<{
 }>;
 export type ____DangerouslyImpreciseStyle_InternalCore = $ReadOnly<{
   ...$Exact<____TextStyle_Internal>,
-  resizeMode?: \\"contain\\" | \\"cover\\" | \\"stretch\\" | \\"center\\" | \\"repeat\\",
-  objectFit?: \\"cover\\" | \\"contain\\" | \\"fill\\" | \\"scale-down\\",
+  resizeMode?: ImageResizeMode,
+  objectFit?: \\"cover\\" | \\"contain\\" | \\"fill\\" | \\"scale-down\\" | \\"none\\",
   tintColor?: ____ColorValue_Internal,
   overlayColor?: string,
 }>;

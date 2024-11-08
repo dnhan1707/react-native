@@ -157,6 +157,11 @@ void FabricUIManagerBinding::startSurfaceWithSurfaceHandler(
   }
   scheduler->registerSurface(surfaceHandler);
 
+  auto mountingManager = getMountingManager("startSurfaceWithSurfaceHandler");
+  if (mountingManager != nullptr) {
+    mountingManager->onSurfaceStart(surfaceId);
+  }
+
   surfaceHandler.start();
 
   if (ReactNativeFeatureFlags::enableLayoutAnimationsOnAndroid()) {
@@ -167,14 +172,8 @@ void FabricUIManagerBinding::startSurfaceWithSurfaceHandler(
   {
     std::unique_lock lock(surfaceHandlerRegistryMutex_);
     surfaceHandlerRegistry_.emplace(
-        surfaceHandler.getSurfaceId(), jni::make_weak(surfaceHandlerBinding));
+        surfaceId, jni::make_weak(surfaceHandlerBinding));
   }
-
-  auto mountingManager = getMountingManager("startSurfaceWithSurfaceHandler");
-  if (!mountingManager) {
-    return;
-  }
-  mountingManager->onSurfaceStart(surfaceHandler.getSurfaceId());
 }
 
 // Used by non-bridgeless+Fabric
@@ -206,6 +205,11 @@ void FabricUIManagerBinding::startSurface(
 
   scheduler->registerSurface(surfaceHandler);
 
+  auto mountingManager = getMountingManager("startSurface");
+  if (mountingManager != nullptr) {
+    mountingManager->onSurfaceStart(surfaceId);
+  }
+
   surfaceHandler.start();
 
   if (ReactNativeFeatureFlags::enableLayoutAnimationsOnAndroid()) {
@@ -214,17 +218,9 @@ void FabricUIManagerBinding::startSurface(
   }
 
   {
-    SystraceSection s2("FabricUIManagerBinding::startSurface::surfaceId::lock");
     std::unique_lock lock(surfaceHandlerRegistryMutex_);
-    SystraceSection s3("FabricUIManagerBinding::startSurface::surfaceId");
     surfaceHandlerRegistry_.emplace(surfaceId, std::move(surfaceHandler));
   }
-
-  auto mountingManager = getMountingManager("startSurface");
-  if (!mountingManager) {
-    return;
-  }
-  mountingManager->onSurfaceStart(surfaceId);
 }
 
 // Used by non-bridgeless+Fabric
@@ -278,6 +274,11 @@ void FabricUIManagerBinding::startSurfaceWithConstraints(
 
   scheduler->registerSurface(surfaceHandler);
 
+  auto mountingManager = getMountingManager("startSurfaceWithConstraints");
+  if (mountingManager != nullptr) {
+    mountingManager->onSurfaceStart(surfaceId);
+  }
+
   surfaceHandler.start();
 
   if (ReactNativeFeatureFlags::enableLayoutAnimationsOnAndroid()) {
@@ -286,19 +287,9 @@ void FabricUIManagerBinding::startSurfaceWithConstraints(
   }
 
   {
-    SystraceSection s2(
-        "FabricUIManagerBinding::startSurfaceWithConstraints::surfaceId::lock");
     std::unique_lock lock(surfaceHandlerRegistryMutex_);
-    SystraceSection s3(
-        "FabricUIManagerBinding::startSurfaceWithConstraints::surfaceId");
     surfaceHandlerRegistry_.emplace(surfaceId, std::move(surfaceHandler));
   }
-
-  auto mountingManager = getMountingManager("startSurfaceWithConstraints");
-  if (!mountingManager) {
-    return;
-  }
-  mountingManager->onSurfaceStart(surfaceId);
 }
 
 // Used by non-bridgeless+Fabric
@@ -460,32 +451,28 @@ void FabricUIManagerBinding::installFabricUIManager(
 
   auto runtimeExecutor = runtimeExecutorHolder->cthis()->get();
 
-  if (runtimeSchedulerHolder) {
-    auto runtimeScheduler = runtimeSchedulerHolder->cthis()->get().lock();
-    if (runtimeScheduler) {
-      runtimeExecutor =
-          [runtimeScheduler](
-              std::function<void(jsi::Runtime & runtime)>&& callback) {
-            runtimeScheduler->scheduleWork(std::move(callback));
-          };
-      contextContainer->insert(
-          "RuntimeScheduler",
-          std::weak_ptr<RuntimeScheduler>(runtimeScheduler));
-    }
+  auto runtimeScheduler = runtimeSchedulerHolder->cthis()->get().lock();
+  if (runtimeScheduler) {
+    runtimeExecutor =
+        [runtimeScheduler](
+            std::function<void(jsi::Runtime & runtime)>&& callback) {
+          runtimeScheduler->scheduleWork(std::move(callback));
+        };
+    contextContainer->insert(
+        "RuntimeScheduler", std::weak_ptr<RuntimeScheduler>(runtimeScheduler));
   }
 
   EventBeat::Factory eventBeatFactory =
-      [eventBeatManager, runtimeExecutor, globalJavaUiManager](
+      [eventBeatManager, &runtimeScheduler, globalJavaUiManager](
           std::shared_ptr<EventBeat::OwnerBox> ownerBox)
       -> std::unique_ptr<EventBeat> {
     return std::make_unique<AndroidEventBeat>(
         std::move(ownerBox),
         eventBeatManager,
-        runtimeExecutor,
+        *runtimeScheduler,
         globalJavaUiManager);
   };
 
-  contextContainer->insert("ReactNativeConfig", config);
   contextContainer->insert("FabricUIManager", globalJavaUiManager);
 
   // Keep reference to config object and cache some feature flags here

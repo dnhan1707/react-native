@@ -17,7 +17,7 @@ import type {FeatureFlagDefinitions} from './types';
  *
  * If you modify this file, you need to update all the generated files
  * running the following script from the repo root:
- *   yarn featureflags-update
+ *   yarn featureflags --update
  */
 
 // These flags are only used in tests for the feature flags system
@@ -90,6 +90,15 @@ const definitions: FeatureFlagDefinitions = {
         purpose: 'release',
       },
     },
+    disableMountItemReorderingAndroid: {
+      defaultValue: false,
+      metadata: {
+        dateAdded: '2024-10-26',
+        description:
+          'Prevent FabricMountingManager from reordering mountitems, which may lead to invalid state on the UI thread',
+        purpose: 'experimentation',
+      },
+    },
     enableAlignItemsBaselineOnFabricIOS: {
       defaultValue: true,
       metadata: {
@@ -100,12 +109,11 @@ const definitions: FeatureFlagDefinitions = {
       },
     },
     enableAndroidLineHeightCentering: {
-      defaultValue: false,
+      defaultValue: true,
       metadata: {
-        dateAdded: '2024-09-11',
         description:
           'When enabled, custom line height calculation will be centered from top to bottom.',
-        purpose: 'experimentation',
+        purpose: 'release',
       },
     },
     enableBridgelessArchitecture: {
@@ -114,14 +122,6 @@ const definitions: FeatureFlagDefinitions = {
         description:
           'Feature flag to enable the new bridgeless architecture. Note: Enabling this will force enable the following flags: `useTurboModules` & `enableFabricRenderer.',
         purpose: 'release',
-      },
-    },
-    enableCleanTextInputYogaNode: {
-      defaultValue: false,
-      metadata: {
-        dateAdded: '2024-04-06',
-        description: 'Clean yoga node when <TextInput /> does not change.',
-        purpose: 'experimentation',
       },
     },
     enableCppPropsIteratorSetter: {
@@ -277,15 +277,6 @@ const definitions: FeatureFlagDefinitions = {
         purpose: 'experimentation',
       },
     },
-    enableTextPreallocationOptimisation: {
-      defaultValue: false,
-      metadata: {
-        dateAdded: '2024-09-12',
-        description:
-          'Text preallocation optimisation where unnecessary work is removed.',
-        purpose: 'experimentation',
-      },
-    },
     enableUIConsistency: {
       defaultValue: false,
       metadata: {
@@ -399,6 +390,14 @@ const definitions: FeatureFlagDefinitions = {
         purpose: 'operational',
       },
     },
+    useAlwaysAvailableJSErrorHandling: {
+      defaultValue: false,
+      metadata: {
+        description:
+          'In Bridgeless mode, use the always available javascript error reporting pipeline.',
+        purpose: 'release',
+      },
+    },
     useFabricInterop: {
       defaultValue: false,
       metadata: {
@@ -499,6 +498,15 @@ const definitions: FeatureFlagDefinitions = {
         dateAdded: '2024-02-05',
         description:
           'Enables an experimental mega-operation for Animated.js that replaces many calls to native with a single call into native, to reduce JSI/JNI traffic.',
+        purpose: 'experimentation',
+      },
+    },
+    disableInteractionManager: {
+      defaultValue: false,
+      metadata: {
+        dateAdded: '2024-11-06',
+        description:
+          'Disables InteractionManager and replaces its scheduler with `setImmediate`.',
         purpose: 'experimentation',
       },
     },
