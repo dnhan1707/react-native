@@ -16,10 +16,11 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTVibrationClassProvider(const char *name) {
+Class RCTVibrationClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"Vibration", RCTVibrationCls},
+      {"Vibration", RCTVibrationCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

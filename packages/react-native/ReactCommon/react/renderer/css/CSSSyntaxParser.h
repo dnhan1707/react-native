@@ -42,8 +42,10 @@ struct CSSSimpleBlock {
  */
 template <typename T, typename ReturnT>
 concept CSSFunctionVisitor = requires(T visitor, CSSFunctionBlock func) {
-  { visitor(func) } -> std::convertible_to<ReturnT>;
-};
+                               {
+                                 visitor(func)
+                                 } -> std::convertible_to<ReturnT>;
+                             };
 
 /**
  * A CSSPreservedTokenVisitor is called after parsing a preserved token
@@ -62,8 +64,10 @@ concept CSSPreservedTokenVisitor =
  */
 template <typename T, typename ReturnT>
 concept CSSSimpleBlockVisitor = requires(T visitor, CSSSimpleBlock block) {
-  { visitor(block) } -> std::convertible_to<ReturnT>;
-};
+                                  {
+                                    visitor(block)
+                                    } -> std::convertible_to<ReturnT>;
+                                };
 
 /**
  * Any visitor for a component value.

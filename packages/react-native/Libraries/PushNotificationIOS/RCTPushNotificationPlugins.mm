@@ -16,10 +16,11 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTPushNotificationClassProvider(const char *name) {
+Class RCTPushNotificationClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"PushNotificationManager", RCTPushNotificationManagerCls},
+      {"PushNotificationManager", RCTPushNotificationManagerCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

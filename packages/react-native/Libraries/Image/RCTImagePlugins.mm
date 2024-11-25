@@ -16,14 +16,15 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTImageClassProvider(const char *name) {
+Class RCTImageClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"GIFImageDecoder", RCTGIFImageDecoderCls},
-    {"ImageEditingManager", RCTImageEditingManagerCls},
-    {"ImageLoader", RCTImageLoaderCls},
-    {"ImageStoreManager", RCTImageStoreManagerCls},
-    {"LocalAssetImageLoader", RCTLocalAssetImageLoaderCls},
+      {"GIFImageDecoder", RCTGIFImageDecoderCls},
+      {"ImageEditingManager", RCTImageEditingManagerCls},
+      {"ImageLoader", RCTImageLoaderCls},
+      {"ImageStoreManager", RCTImageStoreManagerCls},
+      {"LocalAssetImageLoader", RCTLocalAssetImageLoaderCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

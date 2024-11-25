@@ -34,7 +34,8 @@ namespace facebook::react {
       "PerformanceEntryType::MEASURE",
       "PerformanceEntryType::EVENT",
   };
-  return os << "{ .name = \"" << entry.name << "\"" << ", .entryType = "
+  return os << "{ .name = \"" << entry.name << "\""
+            << ", .entryType = "
             << entryTypeNames[static_cast<int>(entry.entryType)]
             << ", .startTime = " << entry.startTime
             << ", .duration = " << entry.duration << " }";

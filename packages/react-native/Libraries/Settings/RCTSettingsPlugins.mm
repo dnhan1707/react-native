@@ -16,10 +16,11 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTSettingsClassProvider(const char *name) {
+Class RCTSettingsClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"SettingsManager", RCTSettingsManagerCls},
+      {"SettingsManager", RCTSettingsManagerCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

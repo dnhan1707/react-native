@@ -64,7 +64,7 @@ class CSSValueVariant {
 
   constexpr CSSValueVariant()
     requires(canRepresent<CSSWideKeyword>())
-      : CSSValueVariant(CSSValueType::CSSWideKeyword, CSSWideKeyword::Unset) {}
+  : CSSValueVariant(CSSValueType::CSSWideKeyword, CSSWideKeyword::Unset) {}
 
   static constexpr CSSValueVariant cssWideKeyword(CSSWideKeyword keyword) {
     return CSSValueVariant(

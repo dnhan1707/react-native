@@ -35,7 +35,7 @@ class DummyShadowTreeDelegate : public ShadowTreeDelegate {
 
   void shadowTreeDidFinishTransaction(
       std::shared_ptr<const MountingCoordinator> mountingCoordinator,
-      bool mountSynchronously) const override {};
+      bool mountSynchronously) const override{};
 };
 
 namespace {

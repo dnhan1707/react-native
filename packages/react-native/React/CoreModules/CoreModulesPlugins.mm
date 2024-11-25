@@ -16,33 +16,34 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTCoreModulesClassProvider(const char *name) {
+Class RCTCoreModulesClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"AccessibilityManager", RCTAccessibilityManagerCls},
-    {"ActionSheetManager", RCTActionSheetManagerCls},
-    {"AlertManager", RCTAlertManagerCls},
-    {"AppState", RCTAppStateCls},
-    {"Appearance", RCTAppearanceCls},
-    {"Clipboard", RCTClipboardCls},
-    {"DevLoadingView", RCTDevLoadingViewCls},
-    {"DevMenu", RCTDevMenuCls},
-    {"DevSettings", RCTDevSettingsCls},
-    {"DeviceInfo", RCTDeviceInfoCls},
-    {"EventDispatcher", RCTEventDispatcherCls},
-    {"ExceptionsManager", RCTExceptionsManagerCls},
-    {"I18nManager", RCTI18nManagerCls},
-    {"KeyboardObserver", RCTKeyboardObserverCls},
-    {"LogBox", RCTLogBoxCls},
-    {"PerfMonitor", RCTPerfMonitorCls},
-    {"PlatformConstants", RCTPlatformCls},
-    {"RedBox", RCTRedBoxCls},
-    {"SourceCode", RCTSourceCodeCls},
-    {"StatusBarManager", RCTStatusBarManagerCls},
-    {"Timing", RCTTimingCls},
-    {"WebSocketExecutor", RCTWebSocketExecutorCls},
-    {"WebSocketModule", RCTWebSocketModuleCls},
-    {"BlobModule", RCTBlobManagerCls},
+      {"AccessibilityManager", RCTAccessibilityManagerCls},
+      {"ActionSheetManager", RCTActionSheetManagerCls},
+      {"AlertManager", RCTAlertManagerCls},
+      {"AppState", RCTAppStateCls},
+      {"Appearance", RCTAppearanceCls},
+      {"Clipboard", RCTClipboardCls},
+      {"DevLoadingView", RCTDevLoadingViewCls},
+      {"DevMenu", RCTDevMenuCls},
+      {"DevSettings", RCTDevSettingsCls},
+      {"DeviceInfo", RCTDeviceInfoCls},
+      {"EventDispatcher", RCTEventDispatcherCls},
+      {"ExceptionsManager", RCTExceptionsManagerCls},
+      {"I18nManager", RCTI18nManagerCls},
+      {"KeyboardObserver", RCTKeyboardObserverCls},
+      {"LogBox", RCTLogBoxCls},
+      {"PerfMonitor", RCTPerfMonitorCls},
+      {"PlatformConstants", RCTPlatformCls},
+      {"RedBox", RCTRedBoxCls},
+      {"SourceCode", RCTSourceCodeCls},
+      {"StatusBarManager", RCTStatusBarManagerCls},
+      {"Timing", RCTTimingCls},
+      {"WebSocketExecutor", RCTWebSocketExecutorCls},
+      {"WebSocketModule", RCTWebSocketModuleCls},
+      {"BlobModule", RCTBlobManagerCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

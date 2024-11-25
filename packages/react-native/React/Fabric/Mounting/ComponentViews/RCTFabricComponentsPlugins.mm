@@ -16,21 +16,22 @@
 #import <string>
 #import <unordered_map>
 
-Class<RCTComponentViewProtocol> RCTFabricComponentsProvider(const char *name) {
+Class<RCTComponentViewProtocol> RCTFabricComponentsProvider(const char *name)
+{
   static std::unordered_map<std::string, Class (*)(void)> sFabricComponentsClassMap = {
-    {"ActivityIndicatorView", RCTActivityIndicatorViewCls},
-    {"DebuggingOverlay", RCTDebuggingOverlayCls},
-    {"InputAccessoryView", RCTInputAccessoryCls},
-    {"Paragraph", RCTParagraphCls},
-    {"PullToRefreshView", RCTPullToRefreshViewCls},
-    {"SafeAreaView", RCTSafeAreaViewCls},
-    {"ScrollView", RCTScrollViewCls},
-    {"Switch", RCTSwitchCls},
-    {"TextInput", RCTTextInputCls},
-    {"UnimplementedNativeView", RCTUnimplementedNativeViewCls},
-    {"View", RCTViewCls},
-    {"Image", RCTImageCls},
-    {"ModalHostView", RCTModalHostViewCls},
+      {"ActivityIndicatorView", RCTActivityIndicatorViewCls},
+      {"DebuggingOverlay", RCTDebuggingOverlayCls},
+      {"InputAccessoryView", RCTInputAccessoryCls},
+      {"Paragraph", RCTParagraphCls},
+      {"PullToRefreshView", RCTPullToRefreshViewCls},
+      {"SafeAreaView", RCTSafeAreaViewCls},
+      {"ScrollView", RCTScrollViewCls},
+      {"Switch", RCTSwitchCls},
+      {"TextInput", RCTTextInputCls},
+      {"UnimplementedNativeView", RCTUnimplementedNativeViewCls},
+      {"View", RCTViewCls},
+      {"Image", RCTImageCls},
+      {"ModalHostView", RCTModalHostViewCls},
   };
 
   auto p = sFabricComponentsClassMap.find(name);

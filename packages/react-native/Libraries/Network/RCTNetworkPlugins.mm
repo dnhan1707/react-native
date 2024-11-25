@@ -16,13 +16,14 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTNetworkClassProvider(const char *name) {
+Class RCTNetworkClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"DataRequestHandler", RCTDataRequestHandlerCls},
-    {"FileRequestHandler", RCTFileRequestHandlerCls},
-    {"HTTPRequestHandler", RCTHTTPRequestHandlerCls},
-    {"Networking", RCTNetworkingCls},
+      {"DataRequestHandler", RCTDataRequestHandlerCls},
+      {"FileRequestHandler", RCTFileRequestHandlerCls},
+      {"HTTPRequestHandler", RCTHTTPRequestHandlerCls},
+      {"Networking", RCTNetworkingCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

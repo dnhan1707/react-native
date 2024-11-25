@@ -138,7 +138,9 @@ class RawProps final {
  */
 template <typename T>
 concept RawPropsFilterable = requires(RawProps& rawProps) {
-  { T::filterRawProps(rawProps) } -> std::same_as<void>;
-};
+                               {
+                                 T::filterRawProps(rawProps)
+                                 } -> std::same_as<void>;
+                             };
 
 } // namespace facebook::react

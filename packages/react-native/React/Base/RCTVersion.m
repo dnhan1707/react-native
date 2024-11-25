@@ -9,23 +9,22 @@
 
 #import "RCTVersion.h"
 
-NSString* const RCTVersionMajor = @"major";
-NSString* const RCTVersionMinor = @"minor";
-NSString* const RCTVersionPatch = @"patch";
-NSString* const RCTVersionPrerelease = @"prerelease";
+NSString *const RCTVersionMajor = @"major";
+NSString *const RCTVersionMinor = @"minor";
+NSString *const RCTVersionPatch = @"patch";
+NSString *const RCTVersionPrerelease = @"prerelease";
 
-
-NSDictionary* RCTGetReactNativeVersion(void)
+NSDictionary *RCTGetReactNativeVersion(void)
 {
-  static NSDictionary* __rnVersion;
+  static NSDictionary *__rnVersion;
   static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^(void){
+  dispatch_once(&onceToken, ^(void) {
     __rnVersion = @{
-                  RCTVersionMajor: @(1000),
-                  RCTVersionMinor: @(0),
-                  RCTVersionPatch: @(0),
-                  RCTVersionPrerelease: [NSNull null],
-                  };
+      RCTVersionMajor : @(1000),
+      RCTVersionMinor : @(0),
+      RCTVersionPatch : @(0),
+      RCTVersionPrerelease : [NSNull null],
+    };
   });
   return __rnVersion;
 }

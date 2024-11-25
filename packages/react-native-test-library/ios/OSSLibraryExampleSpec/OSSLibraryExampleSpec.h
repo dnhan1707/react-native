@@ -30,20 +30,19 @@
 #import <optional>
 #import <vector>
 
-
 @protocol NativeSampleModuleSpec <RCTBridgeModule, RCTTurboModule>
 
 - (NSNumber *)getRandomNumber;
 
 @end
 namespace facebook::react {
-  /**
-   * ObjC++ class for module 'NativeSampleModule'
-   */
-  class JSI_EXPORT NativeSampleModuleSpecJSI : public ObjCTurboModule {
-  public:
-    NativeSampleModuleSpecJSI(const ObjCTurboModule::InitParams &params);
-  };
+/**
+ * ObjC++ class for module 'NativeSampleModule'
+ */
+class JSI_EXPORT NativeSampleModuleSpecJSI : public ObjCTurboModule {
+ public:
+  NativeSampleModuleSpecJSI(const ObjCTurboModule::InitParams &params);
+};
 } // namespace facebook::react
 
 #endif // OSSLibraryExampleSpec_H

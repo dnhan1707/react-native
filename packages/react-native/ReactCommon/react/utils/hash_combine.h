@@ -13,9 +13,12 @@
 namespace facebook::react {
 
 template <typename T>
-concept Hashable = !std::is_same_v<T, const char*> && (requires(T a) {
-  { std::hash<T>{}(a) } -> std::convertible_to<std::size_t>;
-});
+concept Hashable = !
+std::is_same_v<T, const char*> && (requires(T a) {
+                                     {
+                                       std::hash<T>{}(a)
+                                       } -> std::convertible_to<std::size_t>;
+                                   });
 
 template <Hashable T, Hashable... Rest>
 void hash_combine(std::size_t& seed, const T& v, const Rest&... rest) {

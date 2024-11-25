@@ -16,11 +16,12 @@
 #import <string>
 #import <unordered_map>
 
-Class RCTAnimationClassProvider(const char *name) {
+Class RCTAnimationClassProvider(const char *name)
+{
   // Intentionally leak to avoid crashing after static destructors are run.
   static const auto sCoreModuleClassMap = new const std::unordered_map<std::string, Class (*)(void)>{
-    {"NativeAnimatedModule", RCTNativeAnimatedModuleCls},
-    {"NativeAnimatedTurboModule", RCTNativeAnimatedTurboModuleCls},
+      {"NativeAnimatedModule", RCTNativeAnimatedModuleCls},
+      {"NativeAnimatedTurboModule", RCTNativeAnimatedTurboModuleCls},
   };
 
   auto p = sCoreModuleClassMap->find(name);

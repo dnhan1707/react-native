@@ -28,9 +28,7 @@ class BindingsInstallerHolder
 
  private:
   BindingsInstallerHolder(BindingsInstallFunc bindingsInstaller);
-  [[deprecated(
-      "Use 'BindingsInstaller([](Runtime, CallInvoker) { ... })' instead")]]
-  BindingsInstallerHolder(
+  [[deprecated("Use 'BindingsInstaller([](Runtime, CallInvoker) { ... })' instead")]] BindingsInstallerHolder(
       std::function<void(jsi::Runtime& runtime)> oldBindingsInstaller);
 
  private:
